@@ -118,9 +118,7 @@ if __name__ == "__main__":
     conn = MysqlHelper(content[0],content[1],content[2])
     conn.create('score','(stu_id varchar(20), xn varchar(20), xq varchar(1), c_id varchar(20), score varchar(8), re_score varchar(8), is_retake tinyint(1))')
     conn.create('course','(c_id varchar(20) primary key, c_name varchar(100), c_type varchar(20), c_parent varchar(20), c_credit float, c_ins varchar(20))')
-
-    # stu_id = '12051602'
-    # pwd = 'aeef1d58d33ce786a5470678ca5c7d61'    
+   
     print "输入学号："
     stu_id = raw_input()
     print "输入密码："
