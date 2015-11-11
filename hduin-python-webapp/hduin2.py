@@ -1,6 +1,6 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-import requests, sys, time, re, urllib
+import requests, sys, time, re, urllib, os
 from mysql_lib import MysqlHelper
 
 reload(sys)  
@@ -111,10 +111,16 @@ def get_score(stu_id, start_year, end_year):
         conn.insert('insert into course values (%s,%s,%s,%s,%s,%s)',[tr[2],tr[3],tr[4],tr[5],tr[6],tr[10]])
 
 if __name__ == "__main__":
-    conn = MysqlHelper('root','516cyy','python')
+    conf = os.path.abspath('.')+os.sep+'mysql_conf'
+    with open(conf, 'r') as f:
+        content = f.readlines()
+
+    conn = MysqlHelper(content[0],content[1],content[2])
     conn.create('score','(stu_id varchar(20), xn varchar(20), xq varchar(1), c_id varchar(20), score varchar(8), re_score varchar(8), is_retake tinyint(1))')
     conn.create('course','(c_id varchar(20) primary key, c_name varchar(100), c_type varchar(20), c_parent varchar(20), c_credit float, c_ins varchar(20))')
-    
+
+    # stu_id = '12051602'
+    # pwd = 'aeef1d58d33ce786a5470678ca5c7d61'    
     print "输入学号："
     stu_id = raw_input()
     print "输入密码："
@@ -123,4 +129,6 @@ if __name__ == "__main__":
     start_year = int('20'+stu_id[0:2])
     end_year = int(time.strftime("%Y"))
     login(stu_id, pwd)
+    print "登录成功."
     get_score(stu_id, start_year, end_year)
+    print "成绩获取成功."
